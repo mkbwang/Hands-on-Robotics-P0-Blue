@@ -5,27 +5,32 @@ class ShaveNHaircutPlan( Plan ):
   ShaveNHaircutPlan shows a simple example of sequential composition:
   its behavior is to run the shave plan followed by the haircut plan.
   """
-  def __init__(self,app,shave,haircut,*arg,**kw):
+  def __init__(self,app,shave,haircut,tail,*arg,**kw):
     Plan.__init__(self,app,*arg,**kw)
     self.shave = shave
     self.haircut = haircut
+    self.tail = tail
     
   def behavior( self ):
     progress("Both: starting 'Shave' sequence")
     yield self.shave
     progress("Both: starting 'Haircut' sequence")
     yield self.haircut    
+    progress("Both: starting 'Tail' sequence")
+    yield self.tail    
     progress("Both: done")
     
 class ShaveNHaircutApp( JoyApp ):
   # Load both patterns from their CSV files
   SHAVE = loadCSV("shave.csv")
   HAIRCUT = loadCSV("haircut.csv")
+  TAIL = loadCSV("tail.csv")
 
-  def __init__(self,shaveSpec,hairSpec,*arg,**kw):
+  def __init__(self,shaveSpec,hairSpec,tailSpec,*arg,**kw):
     JoyApp.__init__(self, *arg,**kw)
     self.shaveSpec = shaveSpec
     self.hairSpec = hairSpec
+    self.tailSpec = tailSpec
 
   def onStart(self):
     #
@@ -42,10 +47,15 @@ class ShaveNHaircutApp( JoyApp ):
     # give us start and stop messages; in your own code you can omit these 
     self.hairplan.onStart = lambda : progress("Haircut: starting") 
     self.hairplan.onStop = lambda : progress("Haircut: done") 
+
+    self.tailplan = SheetPlan(self, self.TAIL, x=self.tailSpec )
+    # give us start and stop messages; in your own code you can omit these 
+    self.tailplan.onStart = lambda : progress("Tail: starting") 
+    self.tailplan.onStop = lambda : progress("Tail: done") 
     #
     # Set up a ShaveNHaircutPlan using both of the previous plans
     #
-    self.both = ShaveNHaircutPlan(self, self.shaveplan, self.hairplan)
+    self.both = ShaveNHaircutPlan(self, self.shaveplan, self.hairplan,self.tailplan)
 
   def onEvent(self,evt):
     if evt.type != KEYDOWN:
@@ -60,17 +70,13 @@ class ShaveNHaircutApp( JoyApp ):
            and not self.both.isRunning() ):
         self.hairplan.start()
     elif evt.key == K_b:
-<<<<<<< HEAD
       if ( not self.shaveplan.isRunning() 
-           #and not self.hairplan.isRunning()
+           and not self.hairplan.isRunning()
            ):
         self.shaveplan.start()
         self.hairplan.start()
-=======
-      if ( not self.shaveplan.isRunning()):
-        self.shaveplan.start()
-	self.hairplan.start()
->>>>>>> f07c73622986511cabcdd146a9e5ac72e09cc123
+        self.tailplan.start()
+
     elif evt.key == K_ESCAPE:
         self.stop()
 
@@ -79,6 +85,7 @@ if __name__=="__main__":
   scr = None
   shaveSpec = "#shave "
   hairSpec = "#haircut "
+  tailSpec = "#tail "
   args = list(sys.argv[1:])
   while args:
     arg = args.pop(0)
@@ -91,6 +98,10 @@ if __name__=="__main__":
     elif arg=='--haircut' or arg=='-h':
       hairSpec = args.pop(0)
       if hairSpec[:1]==">": scr = {}
+    elif arg=='--tail' or arg=='-t':
+      tailSpec = args.pop(0)
+      if tailSpec[:1]==">": scr = {}
+
     elif arg=='--help' or arg=='-h':
       sys.stdout.write("""
   Usage: %s [options]
@@ -104,6 +115,7 @@ if __name__=="__main__":
       's' -- start "Shave"
       'h' -- start "Haircut"
       'b' -- start "Both", calling "Shave" and "Haircut" in sequence
+      't' -- control the tail
       'escape' -- exit program
       
     Options:      
@@ -125,5 +137,5 @@ if __name__=="__main__":
       sys.exit(1)
     # ENDS cmdline parsing loop
   
-  app = ShaveNHaircutApp(shaveSpec,hairSpec,robot=robot,scr=scr)
+  app = ShaveNHaircutApp(shaveSpec,hairSpec,tailSpec,robot=robot,scr=scr)
   app.run()
