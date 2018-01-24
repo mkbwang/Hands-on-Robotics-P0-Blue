@@ -60,11 +60,17 @@ class ShaveNHaircutApp( JoyApp ):
            and not self.both.isRunning() ):
         self.hairplan.start()
     elif evt.key == K_b:
+<<<<<<< HEAD
       if ( not self.shaveplan.isRunning() 
            #and not self.hairplan.isRunning()
            ):
         self.shaveplan.start()
         self.hairplan.start()
+=======
+      if ( not self.shaveplan.isRunning()):
+        self.shaveplan.start()
+	self.hairplan.start()
+>>>>>>> f07c73622986511cabcdd146a9e5ac72e09cc123
     elif evt.key == K_ESCAPE:
         self.stop()
 
