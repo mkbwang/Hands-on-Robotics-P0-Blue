@@ -1,0 +1,8 @@
+#!/bin/bash
+#
+#run team blue p0 robot
+
+#stop on errors
+set -e
+
+python p0blue.py -c 3 -t Nx0C/@set_pos Nx65/@set_pos K11/@set_pos
