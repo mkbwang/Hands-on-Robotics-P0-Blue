@@ -1,29 +1,29 @@
 from joy import *
 
-class ShaveNHaircutPlan( Plan ):
-  """
-  ShaveNHaircutPlan shows a simple example of sequential composition:
-  its behavior is to run the shave plan followed by the haircut plan.
-  """
-  def __init__(self,app,shave,haircut,tail,*arg,**kw):
-    Plan.__init__(self,app,*arg,**kw)
-    self.shave = shave
-    self.haircut = haircut
-    self.tail = tail
+#class ShaveNHaircutPlan( Plan ):
+  #"""
+  #ShaveNHaircutPlan shows a simple example of sequential composition:
+  #its behavior is to run the shave plan followed by the haircut plan.
+  #"""
+#  def __init__(self,app,shave,haircut,tail,*arg,**kw):
+#    Plan.__init__(self,app,*arg,**kw)
+#    self.shave = shave
+#    self.haircut = haircut
+#    self.tail = tail
     
-  def behavior( self ):
-    progress("Both: starting 'Shave' sequence")
-    yield self.shave
-    progress("Both: starting 'Haircut' sequence")
-    yield self.haircut    
-    progress("Both: starting 'Tail' sequence")
-    yield self.tail    
-    progress("Both: done")
+#  def behavior( self ):
+#    progress("Both: starting 'Shave' sequence")
+#    yield self.shave
+#    progress("Both: starting 'Haircut' sequence")
+#    yield self.haircut    
+ #   progress("Both: starting 'Tail' sequence")
+ #   yield self.tail    
+ #   progress("Both: done")
     
 class ShaveNHaircutApp( JoyApp ):
   # Load both patterns from their CSV files
-  SHAVE = loadCSV("shave.csv")
-  HAIRCUT = loadCSV("haircut.csv")
+  #SHAVE = loadCSV("shave.csv")
+  #HAIRCUT = loadCSV("haircut.csv")
   TAIL = loadCSV("tail.csv")
 
   def __init__(self,shaveSpec,hairSpec,tailSpec,*arg,**kw):
@@ -36,45 +36,43 @@ class ShaveNHaircutApp( JoyApp ):
     #
     # Use a sheetplan to realize SHAVE, outputting to self.shaveSpec
     #
-    self.shaveplan = SheetPlan(self, self.SHAVE, x=self.shaveSpec ) 
+    #self.shaveplan = SheetPlan(self, self.SHAVE, x=self.shaveSpec ) 
     # give us start and stop messages; in your own code you can omit these 
-    self.shaveplan.onStart = lambda : progress("Shave: starting") 
-    self.shaveplan.onStop = lambda : progress("Shave: done") 
+    #self.shaveplan.onStart = lambda : progress("Shave: starting") 
+    #self.shaveplan.onStop = lambda : progress("Shave: done") 
     #
     # Use a sheetplan to realize H, outputting to s
     #
-    self.hairplan = SheetPlan(self, self.HAIRCUT, x=self.hairSpec )
+    #self.hairplan = SheetPlan(self, self.HAIRCUT, x=self.hairSpec )
     # give us start and stop messages; in your own code you can omit these 
-    self.hairplan.onStart = lambda : progress("Haircut: starting") 
-    self.hairplan.onStop = lambda : progress("Haircut: done") 
+    #self.hairplan.onStart = lambda : progress("Haircut: starting") 
+    #self.hairplan.onStop = lambda : progress("Haircut: done") 
 
-    self.tailplan = SheetPlan(self, self.TAIL, x=self.tailSpec )
+    self.tailplan = SheetPlan(self, self.TAIL, x=self.tailSpec,y=self.shaveSpec,z=self.hairSpec  )
     # give us start and stop messages; in your own code you can omit these 
     self.tailplan.onStart = lambda : progress("Tail: starting") 
     self.tailplan.onStop = lambda : progress("Tail: done") 
     #
     # Set up a ShaveNHaircutPlan using both of the previous plans
     #
-    self.both = ShaveNHaircutPlan(self, self.shaveplan, self.hairplan,self.tailplan)
+    #self.both = ShaveNHaircutPlan(self, self.shaveplan, self.hairplan,self.tailplan)
 
   def onEvent(self,evt):
     if evt.type != KEYDOWN:
       return
     # assertion: must be a KEYDOWN event 
-    if evt.key == K_s:
-      if ( not self.shaveplan.isRunning()
-           and not self.both.isRunning() ):
-        self.shaveplan.start()
-    elif evt.key == K_h:
-      if ( not self.hairplan.isRunning()
-           and not self.both.isRunning() ):
-        self.hairplan.start()
+    #if evt.key == K_s:
+    #  if ( not self.shaveplan.isRunning()
+    #       and not self.both.isRunning() ):
+    #    self.shaveplan.start()
+    #elif evt.key == K_h:
+    #  if ( not self.hairplan.isRunning()
+    #       and not self.both.isRunning() ):
+    #    self.hairplan.start()
     elif evt.key == K_b:
-      if ( not self.shaveplan.isRunning() 
-           and not self.hairplan.isRunning()
+      if ( not self.tailplan.isRunning() 
+           #and not self.hairplan.isRunning()
            ):
-        self.shaveplan.start()
-        self.hairplan.start()
         self.tailplan.start()
 
     elif evt.key == K_ESCAPE:
@@ -99,6 +97,8 @@ if __name__=="__main__":
       hairSpec = args.pop(0)
       if hairSpec[:1]==">": scr = {}
     elif arg=='--tail' or arg=='-t':
+      shaveSpec = args.pop(0)
+      hairSpec = args.pop(0)
       tailSpec = args.pop(0)
       if tailSpec[:1]==">": scr = {}
 
