@@ -19,6 +19,7 @@ from joy import *
  #   progress("Both: starting 'Tail' sequence")
  #   yield self.tail    
  #   progress("Both: done")
+
     
 class ShaveNHaircutApp( JoyApp ):
   # Load both patterns from their CSV files
@@ -54,25 +55,27 @@ class ShaveNHaircutApp( JoyApp ):
         if evt.type != KEYDOWN:
             return
     # assertion: must be a KEYDOWN event 
-        elif evt.key == K_b:
+        elif evt.key == K_w:
             if ( not self.leapplan.isRunning() 
                 and not self.leftplan.isRunning()
                 and not self.rightplan.isRunning()
                 ):
                 self.leapplan.start()
-        elif evt.key == K_l:
+        elif evt.key == K_a:
             if ( not self.leapplan.isRunning() 
                 and not self.leftplan.isRunning()
                 and not self.rightplan.isRunning()
                 ):
                 self.leftplan.start()
-        elif evt.key == K_r:
+        elif evt.key == K_d:
             if ( not self.leapplan.isRunning() 
                 and not self.leftplan.isRunning()
                 and not self.rightplan.isRunning()
                 ):
                 self.rightplan.start()
-        elif evt.key == K_z:
+        elif evt.key == K_ESCAPE:
+            self.stop()
+        else:
             if self.leapplan.isRunning():
                 self.leapplan.stop()
             elif self.leftplan.isRunning():
@@ -81,8 +84,6 @@ class ShaveNHaircutApp( JoyApp ):
                 self.rightplan.stop()
             else:
                 return
-        elif evt.key == K_ESCAPE:
-            self.stop()
 
 if __name__=="__main__":
     robot = None
