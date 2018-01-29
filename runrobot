@@ -1,8 +1,12 @@
 #!/bin/bash
 #
-#run team blue p0 robot
+##@title: Blue Team Project Zero Run Script
+#@authors: Mukai Wang, Ali Yassine, Anne Gu, Royce Chung
+#@date: 1/29/2018
+#@course: EECS 464 - Hands On Robotics
 #
-#stop on errors
+#Runs team blue p0 robot code "p0blue.py"
+#Stops when errors occur
 set -e
 
-python p0blue.py -c 3 -t Nx0C/@set_pos Nx65/@set_pos K11/@set_pos
+python p0blue.py -c 3 -s Nx0C/@set_pos Nx65/@set_pos K11/@set_pos
