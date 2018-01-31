@@ -1,0 +1,90 @@
+\documentclass[a4paper, 12pt, oneside]{article} % A4 paper size, default 11pt font size and oneside for equal margins
+
+\newcommand{\plogo}{\fbox{$\mathcal{PL}$}} % Generic dummy publisher logo
+\usepackage[margin=0.5in]{geometry}
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+\usepackage{fouriernc} % Use the New Century Schoolbook font
+\usepackage{setspace}
+\usepackage{enumerate}
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\begin{document} 
+
+\begin{titlepage} % Suppresses headers and footers on the title page
+
+	\centering % Centre everything on the title page
+	
+	\scshape % Use small caps for all text on the title page
+	
+	\vspace*{2\baselineskip} % White space at the top of the page
+	
+	%------------------------------------------------
+	%	Title
+	%------------------------------------------------
+	
+	\rule{\textwidth}{1.6pt}\vspace*{-\baselineskip}\vspace*{2pt} % Thick horizontal rule
+	\rule{\textwidth}{0.4pt} % Thin horizontal rule
+	
+	\vspace{0.75\baselineskip} % Whitespace above the title
+	
+	{\LARGE EECS 464 HANDS ON ROBOTICS\vskip 0.2in PROJECT 0 FINAL REPORT} % Title
+	
+	\vspace{0.75\baselineskip} % Whitespace below the title
+	
+	\rule{\textwidth}{0.4pt}\vspace*{-\baselineskip}\vspace{3.2pt} % Thin horizontal rule
+	\rule{\textwidth}{1.6pt} % Thick horizontal rule
+	
+	\vspace{7\baselineskip} % Whitespace after the title block
+	
+	
+	%------------------------------------------------
+	%	Editor(s)
+	%------------------------------------------------
+	
+	Edited By Team Blue
+	
+	\vspace{0.5\baselineskip} % Whitespace before the editors
+	
+	{\scshape\Large Royce Chung \\ Anne Gu \\ Mukai Wang \\ Ali Yassin} % Editor list
+	
+	\vfill
+
+	
+	\today
+	
+
+	
+
+\end{titlepage}
+\pagenumbering{gobble}
+\begin{spacing}{1.5}
+\tableofcontents
+\end{spacing}
+\newpage
+\setcounter{page}{1}
+\pagenumbering{Roman}
+\section{Background}
+\subsection{Problem Description}
+The main object of this project is to build a robot that is able to navigate around a figure eight track as fast as possible without being disqualified. The basic requirements include:
+\begin{enumerate} 
+\item The robot can move 1 meter forward 
+\item The robot can rotate 90 degrees 
+\item Fits in a 60 x 15 x 30 cm box.
+\end{enumerate} 
+Some of the constraints that need to be considered are:
+\begin{enumerate} 
+\item Only three Dynamixel motors are allowed 
+\item No fully rotational parts are allowed 
+\item The track is carpeted 
+\item The robot is tethered by controller.
+\end{enumerate} 
+\subsection{Literature Review}
+\subsection{Alternative Prototypes}
+\subsection{Final Design}
+\section{Result}
+\section{Discussion}
+
+\end{document}
